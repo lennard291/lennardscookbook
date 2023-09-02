@@ -1,0 +1,145 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{lennardscookbook}
+
+% Needed packages
+\RequirePackage{cookingsymbols}
+\RequirePackage{units}
+\RequirePackage{wasysym}
+\RequirePackage[misc]{ifsym}
+\RequirePackage{graphicx}
+\RequirePackage{subfigure}
+\RequirePackage{enumitem}
+\RequirePackage{ifthen}
+\RequirePackage{tabularx}
+
+% Define package option for language setting (default: english)
+\newcommand{\languagefile}{english}
+\DeclareOption{german}{\renewcommand{\languagefile}{german}}
+\ProcessOptions\relax
+
+% Loading of language file
+\input{lang/\languagefile}
+
+% Adjust the page layout
+\textheight680pt
+\headsep0mm
+\textwidth500pt
+\marginparwidth0pt
+\evensidemargin0pt
+\oddsidemargin0pt
+\hoffset-10pt
+
+% Command for headline
+\newcommand{\rheadlinecmd}[1]{
+\section*{#1}
+\addcontentsline{toc}{section}{#1}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands and setters for recipe environment
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Title
+\newcommand{\rtitle}[1]{\renewcommand{\giventitle}{#1}}
+
+% Step list
+\newcommand{\rsteps}[1]{\renewcommand{\givensteps}{
+\begin{itemize}[leftmargin=*]
+#1
+\end{itemize}}}
+\newcommand{\step}[1]{\item #1}
+
+% List of ingredients
+\newcommand{\ringredientlist}[1]{\renewcommand{\giveningredientlist}{#1}}
+
+% Command to specify a single ingredient (params: amount / unit / Name)
+\newcommand{\ringredient}[3]{
+\ifthenelse{\equal{#1}{}}{- & #3\\}{\unit[#1]{#2} & #3\\
+}}
+\newcommand{\ringredientsection}[2]{\multicolumn{2}{l}{\textbf{#1}}\\\\#2\\}
+
+% Information box
+\newcommand{\rportion}[2][]{\renewcommand{\givenportion}{\Dish & #2 \ifthenelse{\equal{#1}{}}{\langportion}{#1}\\}}
+\newcommand{\rportions}[1]{\renewcommand{\givenportions}{\Dish & #1 \langportions\\}}
+\newcommand{\rtime}[1]{\renewcommand{\giventime}{\clock & #1\\}}
+\newcommand{\roven}[3]{\renewcommand{\givenoven}{#1 & \unit[#2]{\langtemperatureunit}, \unit[#3]{min.}\\}}
+\newcommand{\rovenalt}[3]{\renewcommand{\givenovenalt}{#1 & \unit[#2]{\langtemperatureunit}, \unit[#3]{min.}\\}}
+\newcommand{\rsource}[1]{\renewcommand{\givensource}{\PaperPortrait & #1\\}}
+
+% Rule style
+\newcommand{\insertrule}{\rule[4pt]{\textwidth}{0.5pt}}
+
+% One Image
+\newcommand{\rimage}[1]{\renewcommand{\givenimages}{
+\begin{figure}
+  \includegraphics[height=5cm]{#1}
+\end{figure}
+}}
+
+% Two Images
+\newcommand{\rtwoimages}[2]{\renewcommand{\givenimages}{
+\begin{figure}
+\begin{subfigure}
+  \centering
+  \includegraphics[height=5cm]{#1}
+\end{subfigure}
+\begin{subfigure}
+  \centering
+  \includegraphics[height=5cm]{#2}
+\end{subfigure}
+\end{figure}
+}}
+
+% Recipe environment
+\newenvironment{recipe}{
+
+	% Define default content
+	\newcommand{\giventitle}{\langnotitlespecified}
+	\newcommand{\givensteps}{\vspace{0.3cm}\\\langnostepsspecified}
+	\newcommand{\giventime}{}
+	\newcommand{\givenportions}{}
+	\newcommand{\givenportion}{}
+	\newcommand{\givenoven}{}
+	\newcommand{\givenovenalt}{}
+	\newcommand{\givensource}{}
+	\newcommand{\giveningredientlist}{}
+	\newcommand{\givenimages}{}
+
+}{
+	% Start a new page
+	\newpage
+	
+	% Insert section
+	\rheadlinecmd{\giventitle}
+	
+	% Images
+	\givenimages
+	
+	% Main mini page
+	\vspace{0.5cm}
+	\begin{minipage}[t]{0.63\textwidth}
+		\textbf{\large\langpreparation}\\\insertrule
+		\givensteps
+	\end{minipage}
+	\
+	% Side mini page (right)
+	\hfill
+	\begin{minipage}[t]{0.31\textwidth}
+	
+		\textbf{\large\langinfo}\\\insertrule\\\\
+		\begin{tabular}{ll}
+			\giventime
+			\givenoven
+			\givenovenalt
+			\givenportions
+			\givenportion
+			\givensource
+		\end{tabular}\\\\
+	
+		\textbf{\large\langingredients}\\\insertrule\\\\
+		\begin{tabularx}{\textwidth}{lX}
+			\giveningredientlist
+		\end{tabularx}\\\\
+	
+	\end{minipage}
+}

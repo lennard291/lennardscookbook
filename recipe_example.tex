@@ -1,0 +1,36 @@
+\begin{recipe}
+\rtitle{My first recipe}
+
+% Use the following line to show two pictures next to each other
+%\rtwoimages{path_to_image1}{path_to_image2}
+
+% Use the following line to show one pictures only
+%\rimage{path_to_image}
+
+% Time that it takes to prepare the dish
+\rtime{\unit[1]{h} \unit[45]{min}}
+
+% Information about oven
+\roven{\Fanoven}{180}{25} 			% Primary option for oven
+\rovenalt{\Topbottomheat}{200}{30}	% Alternative option for oven
+% More symbols: \Oven \Topheat \Bottomheat \Gasstove
+
+% Amount of portions
+\rportions{8}
+
+% Source of the recipe
+\rsource{Github}
+
+% List of ingredients. Format: {Amount}{Unit}{Ingredient}
+\ringredientlist{
+	\ringredient{500}{g}{Pasta}
+	\ringredient{300}{g}{Tomatoes}
+	\ringredient{}{}{Basil}
+}
+
+\rsteps{
+	\step Step 1
+	\step Step 2
+}
+
+\end{recipe}
