@@ -34,7 +34,7 @@ Load the package with \usepackage{lennardscookbook}. The default language is eng
   - \rsteps{ ... } to define the steps to follow (preparation). For every step, define "\step TEXT" in \rsteps.
   - Except \rtitle and \rsteps, all other definitions are optional
 
-The file recipe_example.tex gives an examle and shows how to use and place the commands.
+The files cookbook.tex and recipe_example.tex show how to integrate the packet and how to place and use the commands.
 
 ## Demonstration
 
