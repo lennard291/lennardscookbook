@@ -11,11 +11,18 @@
 \RequirePackage{enumitem}
 \RequirePackage{ifthen}
 \RequirePackage{tabularx}
+\RequirePackage{xkeyval}
 
 % Define package option for language setting (default: english)
 \newcommand{\languagefile}{english}
-\DeclareOption{german}{\renewcommand{\languagefile}{german}}
-\ProcessOptions\relax
+\DeclareOptionX{german}{\renewcommand{\languagefile}{german}}
+
+% Define package option for temperature unit (default: C)
+\newcommand{\langtemperatureunit}{\textdegree C}
+\DeclareOptionX{tempunit}{\renewcommand{\langtemperatureunit}{\textdegree #1}}
+
+% Process options once at the end
+\ProcessOptionsX\relax
 
 % Loading of language file
 \input{lang/\languagefile}
@@ -117,14 +124,14 @@
 	
 	% Main mini page
 	\vspace{0.5cm}
-	\begin{minipage}[t]{0.63\textwidth}
+	\begin{minipage}[t]{0.62\textwidth}
 		\textbf{\large\langpreparation}\\\insertrule
 		\givensteps
 	\end{minipage}
 	\
 	% Side mini page (right)
 	\hfill
-	\begin{minipage}[t]{0.31\textwidth}
+	\begin{minipage}[t]{0.32\textwidth}
 	
 		\textbf{\large\langinfo}\\\insertrule\\\\
 		\begin{tabular}{ll}
